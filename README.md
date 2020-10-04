@@ -1,2 +1,2 @@
 # rn-simple-chat
-simple chat built in react-native, mobx
+simple chat built in react-native, mobx, express
