@@ -1,5 +1,6 @@
 import {action, makeAutoObservable} from 'mobx';
 import {ChatType} from '../types';
+import chatRepository from '../repository/chatRepository';
 
 export const dummy: ChatType[] = [
   {id: '1', name: 'test1'},
@@ -10,17 +11,12 @@ export const dummy: ChatType[] = [
 ];
 
 export class ChatStore {
-  isChat: boolean = false;
   chatList: ChatType[] = [];
 
   constructor() {
     makeAutoObservable(this);
-    this.setChatList(dummy);
+    // this.setChatList(dummy);
   }
-  @action
-  setIsChat = (isChat: boolean) => {
-    this.isChat = isChat;
-  };
 
   @action
   setChatList = (list: ChatType[]) => {
@@ -30,6 +26,19 @@ export class ChatStore {
   @action
   addChat = (chat: ChatType) => {
     this.chatList.push(chat);
+  };
+
+  createChat = async (chatName: string) => {
+    console.log(chatRepository);
+    try {
+      const {data} = await chatRepository.createChat(chatName);
+      console.log({data});
+      const {id, name} = data;
+      alert(`id : ${id}, name : ${name}`);
+      this.addChat({id, name});
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   get getList() {

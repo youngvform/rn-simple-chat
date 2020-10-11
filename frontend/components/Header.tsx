@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import {observer} from 'mobx-react-lite';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import chatStore, {ChatStore} from '../store/chat';
@@ -11,14 +11,41 @@ interface Props {
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Header = observer(({store}: Props) => {
-  const {isChat, setIsChat} = store;
+  const [isNameOpen, setIsNameOpen] = useState<boolean>(false);
+  const [name, setName] = useState('');
+  const {createChat} = store;
   const onPress = useCallback(() => {
-    setIsChat(!isChat);
-  }, [isChat, setIsChat]);
+    if (isNameOpen) {
+      if (!name.trim()) {
+        alert('insert name!');
+      } else {
+        createChat(name);
+        // setName('');
+      }
+    }
+    setIsNameOpen(!isNameOpen);
+  }, [isNameOpen, setIsNameOpen, name, createChat]);
+  const onChange = useCallback(
+    (text) => {
+      setName(text);
+    },
+    [setName],
+  );
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Simple Chat</Text>
-      <Button title={!isChat ? 'Create a Room' : 'Exit'} onPress={onPress} />
+      {isNameOpen && (
+        <TextInput
+          style={styles.name}
+          value={name}
+          placeholder={'chat name'}
+          onChangeText={onChange}
+        />
+      )}
+      <Button
+        title={!isNameOpen ? 'Create a Room' : 'Create!'}
+        onPress={onPress}
+      />
     </View>
   );
 });
@@ -67,6 +94,12 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     fontSize: 25,
+  },
+  name: {
+    backgroundColor: 'white',
+    width: 120,
+    height: 30,
+    fontSize: 20,
   },
 });
 

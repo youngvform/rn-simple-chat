@@ -1,7 +1,7 @@
 import {observable} from 'mobx';
 
 const chat = observable({
-  isChat: false,
+  isNameOpen: false,
   setIsChat(isChat: boolean) {
     this.isChat = isChat;
   },
