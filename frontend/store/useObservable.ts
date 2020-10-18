@@ -2,9 +2,9 @@ import {observable} from 'mobx';
 
 const chat = observable({
   isNameOpen: false,
-  setIsChat(isChat: boolean) {
-    this.isChat = isChat;
-  },
+  // setIsChat(isChat: boolean) {
+  //   this.isChat = isChat;
+  // },
 });
 
 const useStore = () => ({chat});

@@ -41,9 +41,15 @@ export class ChatStore {
     }
   };
 
-  get getList() {
-    return this.chatList;
-  }
+  getList = async () => {
+    try {
+      const {data} = await chatRepository.getChatList();
+      console.log({data});
+      this.setChatList(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }
 
 export default new ChatStore();

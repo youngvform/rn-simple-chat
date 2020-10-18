@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {useChatData} from '../store/useChatStoreData';
 import Chat from './Chat';
 
 function ChatList() {
-  const {chatList} = useChatData();
+  const {chatList, getChatList} = useChatData();
+  useEffect(() => {
+    getChatList();
+  }, [getChatList]);
+  console.log({chatList});
 
   return (
     <View>
